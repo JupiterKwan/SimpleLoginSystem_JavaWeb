@@ -42,11 +42,11 @@ public class RegisterServlet extends HttpServlet {
 
             if (!isUserExist) {
                 bufferedWriter.newLine();
-                bufferedWriter.write(username + "," + pwd + "," + gender + "," + age + "," + email + "," + timestamp);
+                bufferedWriter.write(username + "," + pwd + "," + gender + "," + age + "," + email + "," + timestamp + ",0," + timestamp);
                 bufferedReader.close();
                 bufferedWriter.close();
                 response.getWriter().print("<h2>" + username + "注册成功！</h2>");
-                response.getWriter().print("<h2>" + username + "," + pwd + "," + gender + "," + age + "," + email + "," + timestamp + "</h2>");
+                response.getWriter().print("<h2>" + username + "," + pwd + "," + gender + "," + age + "," + email + "," + timestamp + ",0," + timestamp + "</h2>");
             }
         } catch (FileNotFoundException e) {
             System.out.println("没有找到指定文件");

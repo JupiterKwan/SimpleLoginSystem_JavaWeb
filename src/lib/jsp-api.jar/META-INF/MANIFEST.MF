@@ -1,0 +1,57 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: tomcat-jsp-api
+Bundle-SymbolicName: org.apache.tomcat-jsp-api
+Bundle-Version: 10.1.6
+Export-Package: jakarta.servlet.jsp;version="3.1";uses:="jakarta.el,ja
+ karta.servlet,jakarta.servlet.http,jakarta.servlet.jsp.el,jakarta.ser
+ vlet.jsp.tagext",jakarta.servlet.jsp.el;version="3.1";uses:="jakarta.
+ el",jakarta.servlet.jsp.resources;version="3.1",jakarta.servlet.jsp.t
+ agext;version="3.1";uses:="jakarta.servlet.jsp"
+Import-Package: jakarta.el,jakarta.servlet,jakarta.servlet.http,jakart
+ a.servlet.jsp;version="[3.1,4)",jakarta.servlet.jsp.el;version="[3.1,
+ 4)",jakarta.servlet.jsp.tagext;version="[3.1,4)",java.beans,java.io,j
+ ava.lang,java.lang.invoke,java.lang.reflect,java.util,java.util.concu
+ rrent
+Provide-Capability: osgi.contract;osgi.contract=JavaJSP;version:Versio
+ n="3.1";uses:="jakarta.servlet.jsp,jakarta.servlet.jsp.el,jakarta.ser
+ vlet.jsp.resources,jakarta.servlet.jsp.tagext"
+Require-Capability: osgi.contract;osgi.contract=JavaEL;filter:="(&(osg
+ i.contract=JavaEL)(version=5.0.0))",osgi.contract;osgi.contract=JavaS
+ ervlet;filter:="(&(osgi.contract=JavaServlet)(version=6.0.0))",osgi.e
+ e;filter:="(&(osgi.ee=JavaSE)(version=11))"
+X-Compile-Source-JDK: 11
+X-Compile-Target-JDK: 11
+
+Name: jakarta/servlet/jsp/
+Implementation-Title: jakarta.servlet.jsp
+Implementation-Vendor: Apache Software Foundation
+Implementation-Version: 3.1
+Specification-Title: Jakarta Server Pages
+Specification-Vendor: Eclipse Foundation
+Specification-Version: 3.1
+
+Name: jakarta/servlet/jsp/el/
+Implementation-Title: jakarta.servlet.jsp
+Implementation-Vendor: Apache Software Foundation
+Implementation-Version: 3.1
+Specification-Title: Jakarta Server Pages
+Specification-Vendor: Eclipse Foundation
+Specification-Version: 3.1
+
+Name: jakarta/servlet/jsp/resources/
+Implementation-Title: jakarta.servlet.jsp
+Implementation-Vendor: Apache Software Foundation
+Implementation-Version: 3.1
+Specification-Title: Jakarta Server Pages
+Specification-Vendor: Eclipse Foundation
+Specification-Version: 3.1
+
+Name: jakarta/servlet/jsp/tagext/
+Implementation-Title: jakarta.servlet.jsp
+Implementation-Vendor: Apache Software Foundation
+Implementation-Version: 3.1
+Specification-Title: Jakarta Server Pages
+Specification-Vendor: Eclipse Foundation
+Specification-Version: 3.1
+
