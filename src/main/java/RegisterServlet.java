@@ -15,15 +15,12 @@ public class RegisterServlet extends HttpServlet {
         response.setContentType("text/html;charset=utf-8");
 
         Date timestamp = new Date(System.currentTimeMillis());
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
-        System.out.println(formatter.format(timestamp));
 
         String username = request.getParameter("username");
         String pwd = request.getParameter("pwd");
         String gender = request.getParameter("gender");
         String age = request.getParameter("age");
         String email = request.getParameter("email");
-
 
         try {
             String txtPath = "D:\\00_code\\08_WebApp_LoginSys\\loginsys\\src\\main\\user_data\\data.txt";
@@ -33,7 +30,8 @@ public class RegisterServlet extends HttpServlet {
             String lineData;
             boolean isUserExist = false;
             while ((lineData = bufferedReader.readLine()) != null) {
-                if (lineData.contains(username)) {
+                String[] detail = lineData.split(",");
+                if (detail[0].equals(username)) {
                     response.getWriter().print("<h2>" + username + "已经注册过了！</h2>");
                     isUserExist = true;
                     break;
@@ -46,7 +44,8 @@ public class RegisterServlet extends HttpServlet {
                 bufferedReader.close();
                 bufferedWriter.close();
                 response.getWriter().print("<h2>" + username + "注册成功！</h2>");
-                response.getWriter().print("<h2>" + username + "," + pwd + "," + gender + "," + age + "," + email + "," + timestamp + ",0," + timestamp + "</h2>");
+                response.getWriter().print("<h2>三秒后自动返回登陆页面</h2>");
+                response.setHeader("refresh", "3;url=login.html");
             }
         } catch (FileNotFoundException e) {
             System.out.println("没有找到指定文件");
