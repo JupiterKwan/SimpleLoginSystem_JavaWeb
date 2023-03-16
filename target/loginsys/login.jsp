@@ -1,13 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html>
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
     <style>
         .parent {
-            position: relative;
-            top: 50px;
-            left: 50px;
+            margin-top: 80px;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            line-height: 50%;
+            vertical-align: middle;
+        }
+        .form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 180%;
         }
     </style>
 </head>
@@ -15,7 +25,7 @@
 <div class="parent">
     <h2>用户登录</h2>
     <div>
-        <form action="toLogin" method="post">
+        <form action="toLogin" method="post" class="form">
             <table>
                 <tr>
                     <td>
@@ -27,14 +37,14 @@
                 </tr>
                 <tr>
                     <td>
-                        密码:
+                        密  码:
                     </td>
                     <td>
                         <input type="password" name="pwd">
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="2">
+                    <td colspan="2" style="padding-left: 70px">
                         <input type="submit" value="登录">
                         <input type="reset" value="重置">
                     </td>
@@ -42,7 +52,7 @@
             </table>
         </form>
     </div>
-    <div><a href="register.html">还没注册？点这里</a></div>
+    <div class="form"><a href="register.jsp">还没注册？点这里</a></div>
 
 </div>
 

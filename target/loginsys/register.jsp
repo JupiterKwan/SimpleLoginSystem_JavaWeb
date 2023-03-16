@@ -1,5 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
+<%@ page contentType="text/html;charset=UTF-8"%>
+<html>
 <head>
     <meta charset="UTF-8">
     <title>登录</title>
@@ -67,7 +67,7 @@
             </table>
         </form>
     </div>
-    <div><a href="login.html">已经注册？点击登录</a></div>
+    <div><a href="login.jsp">已经注册？点击登录</a></div>
 </div>
 
 </body>
