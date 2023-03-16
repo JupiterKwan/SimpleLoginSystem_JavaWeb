@@ -34,7 +34,7 @@ public class RegisterServlet extends HttpServlet {
             preparedStatement.setString(1, username);
             resultSet = preparedStatement.executeQuery();
             if (resultSet.next()) {
-                response.getWriter().print("<h2>" + username + "已经注册过了！</h2>");
+                request.getRequestDispatcher("register_failed.jsp").forward(request, response);
             } else {
                 String sqlAddUser = "INSERT INTO users(username,pwd,gender,age,email,registime,lasttime) VALUES(?,?,?,?,?,?,?)";
                 preparedStatement = connection.prepareStatement(sqlAddUser);
@@ -49,9 +49,7 @@ public class RegisterServlet extends HttpServlet {
                 preparedStatement.setString(7, date);
                 int result = preparedStatement.executeUpdate();
                 if (result == 1) {
-                    response.getWriter().print("<h2>" + username + "注册成功！</h2>");
-                    response.getWriter().print("<h2>三秒后自动返回登陆页面</h2>");
-                    response.setHeader("refresh", "3;url=login.html");
+                    request.getRequestDispatcher("register_success.jsp").forward(request, response);
                 }
 
             }

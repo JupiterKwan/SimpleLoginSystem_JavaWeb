@@ -7,7 +7,7 @@
 
     <display-name>Archetype Created Web Application</display-name>
     <welcome-file-list>
-        <welcome-file>login.html</welcome-file>
+        <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 
     <servlet>
@@ -18,6 +18,15 @@
         <servlet-name>registerServlet</servlet-name>
         <servlet-class>RegisterServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>logoutServlet</servlet-name>
+        <servlet-class>LogoutServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>logoutServlet</servlet-name>
+        <url-pattern>/toLogout</url-pattern>
+    </servlet-mapping>
 
     <servlet-mapping>
         <servlet-name>loginServlet</servlet-name>
