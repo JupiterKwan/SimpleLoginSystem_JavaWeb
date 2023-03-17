@@ -10,6 +10,13 @@
         <welcome-file>login.jsp</welcome-file>
     </welcome-file-list>
 
+    <listener>
+        <listener-class>OnlineCount</listener-class>
+    </listener>
+    <session-config>
+        <session-timeout>2</session-timeout>
+    </session-config>
+
     <servlet>
         <servlet-name>loginServlet</servlet-name>
         <servlet-class>LoginServlet</servlet-class>
