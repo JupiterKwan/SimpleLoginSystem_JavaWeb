@@ -8,9 +8,8 @@ import java.io.IOException;
 public class LogoutServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        request.getSession().removeAttribute("detail");
-        request.getSession().removeAttribute("date");
+        request.getSession().removeAttribute("user");
+        request.getSession().invalidate();
         response.sendRedirect("login.jsp");
-
     }
 }
