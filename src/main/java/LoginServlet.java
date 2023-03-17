@@ -1,3 +1,4 @@
+// Tomcat 10 + 引入包方式有所不同
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import java.sql.*;
 import java.util.*;
 import java.util.Date;
 
+// 自定义用户类
 import com.user.User;
 
 
@@ -17,6 +19,7 @@ public class LoginServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
 
+    // 用于获取请求端ip地址
     private String getIpAddr(HttpServletRequest request) {
         String ip = request.getHeader("X-Real-IP");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
@@ -42,6 +45,7 @@ public class LoginServlet extends HttpServlet {
         return ip;
     }
 
+    // 用于判断是否为黑名单用户
     private int IsBlockUser(String username) {
         try {
             Class.forName("org.postgresql.Driver");
@@ -65,15 +69,17 @@ public class LoginServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
 
-
+        // 获取提交的表单的用户名和密码
         String username = request.getParameter("username");
         String pwd = request.getParameter("pwd");
 
+        //判断是否为黑名单用户
         int isBlockUser = IsBlockUser(username);
         if (isBlockUser == 1) {
             response.getWriter().print("<script language='javascript'>alert('黑名单用户拒绝登入！');window.location.href='login.jsp';</script>");
         } else {
             try {
+                // 访问数据库获取登录用户的相关数据
                 Class.forName("org.postgresql.Driver");
                 Connection connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/simple_login_system", "postgres", "20029530");
                 String sqlQuery = "SELECT * FROM users WHERE username=? AND pwd=?";
@@ -82,9 +88,12 @@ public class LoginServlet extends HttpServlet {
                 preparedStatement.setString(2, pwd);
                 ResultSet resultSet = preparedStatement.executeQuery();
 
+                // 如果登录信息与数据库成功匹配
                 if (resultSet.next()) {
+                    // 如果存在session则获取，不存在则创建
                     HttpSession session = request.getSession();
 
+                    // 提取数据库中获得的信息
                     String[] detail = new String[resultSet.getMetaData().getColumnCount()];
                     for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
                         detail[i - 1] = resultSet.getString(i);
@@ -95,12 +104,15 @@ public class LoginServlet extends HttpServlet {
 
                     // 为当前session设定属性值，用于存储该用户的相关信息
                     User user = new User(username, detail, String.valueOf(date), getIpAddr(request));
+
+                    // 判断session中的属性值是否包含用户信息，如果包含则判断是否为当前用户的信息
                     if (session.getAttribute("user") != null) {
                         User getUser = (User) session.getAttribute("user");
                         String[] getDetail = getUser.getUserDetail();
                         if (!(getDetail[0].equals(detail[0]) && getDetail[1].equals(detail[1]))) {
                             response.getWriter().print("<script language='javascript'>alert('不允许同一设备登入多个账号！请检查账号或密码是否错误！');window.location.href='login.jsp';</script>");
                         } else {
+                            // 判断是否为管理员界面，如果是则进入管理员界面，否则进入用户界面
                             if (username.equals("admin") && pwd.equals("123456")) {
                                 request.getRequestDispatcher("admin_success.jsp").forward(request, response);
                             } else {
@@ -108,6 +120,7 @@ public class LoginServlet extends HttpServlet {
                             }
                         }
                     } else {
+                        // session中不包含用户信息，注入用户信息属性
                         session.setAttribute("user", user);
 
                         // HTML请求报头内容输出至命令行
@@ -119,6 +132,7 @@ public class LoginServlet extends HttpServlet {
                         }
                         System.out.println("-------------------------------------------------------------");
 
+                        // 刷新登录次数
                         detail[6] = String.valueOf(Integer.parseInt(detail[6]) + 1);
 
                         // 刷新服务器存储的登录次数和最后一次登陆时间数据
@@ -128,7 +142,8 @@ public class LoginServlet extends HttpServlet {
                         preparedStatement.setString(2, String.valueOf(date));
                         preparedStatement.setString(3, username);
                         int result = preparedStatement.executeUpdate();
-                        // 刷新成功
+
+                        // 数据库用户信息刷新成功
                         if (result == 1) {
                             if (username.equals("admin") && pwd.equals("123456")) {
                                 request.getRequestDispatcher("admin_success.jsp").forward(request, response);

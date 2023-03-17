@@ -15,6 +15,7 @@ public class RegisterServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
 
+        //获取当前时间作为注册时间
         Date timestamp = new Date(System.currentTimeMillis());
         String username = request.getParameter("username");
         String pwd = request.getParameter("pwd");
@@ -27,6 +28,7 @@ public class RegisterServlet extends HttpServlet {
         ResultSet resultSet;
 
         try {
+            // 登陆服务器，查询是否用户已存在
             Class.forName("org.postgresql.Driver");
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/simple_login_system", "postgres", "20029530");
             String sqlQuery = "SELECT * FROM users WHERE username=?";
@@ -36,6 +38,7 @@ public class RegisterServlet extends HttpServlet {
             if (resultSet.next()) {
                 request.getRequestDispatcher("register_failed.jsp").forward(request, response);
             } else {
+                // sql代码设定，为数据加入做准备
                 String sqlAddUser = "INSERT INTO users(username,pwd,gender,age,email,registime,lasttime) VALUES(?,?,?,?,?,?,?)";
                 preparedStatement = connection.prepareStatement(sqlAddUser);
                 preparedStatement.setString(1, username);

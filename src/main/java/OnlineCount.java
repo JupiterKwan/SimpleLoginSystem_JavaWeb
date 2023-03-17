@@ -1,11 +1,9 @@
 import com.MySessionContext.SessionRegistry;
+// Tomcat 10 +
 import jakarta.servlet.ServletContext;
 import jakarta.servlet.http.HttpSession;
 import jakarta.servlet.http.HttpSessionEvent;
 import jakarta.servlet.http.HttpSessionListener;
-
-import javax.sound.sampled.AudioFormat;
-import java.util.HashMap;
 
 public class OnlineCount implements HttpSessionListener {
     @Override
