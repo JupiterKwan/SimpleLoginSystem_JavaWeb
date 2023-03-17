@@ -22,44 +22,35 @@ public class RegisterServlet extends HttpServlet {
         int age = Integer.parseInt(request.getParameter("age"));
         String email = request.getParameter("email");
 
-        Connection connection;
-        PreparedStatement preparedStatement;
-        ResultSet resultSet;
-
         try {
-            Class.forName("org.postgresql.Driver");
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/simple_login_system", "postgres", "20029530");
-            String sqlQuery = "SELECT * FROM users WHERE username=?";
-            preparedStatement = connection.prepareStatement(sqlQuery);
-            preparedStatement.setString(1, username);
-            resultSet = preparedStatement.executeQuery();
-            if (resultSet.next()) {
-                request.getRequestDispatcher("register_failed.jsp").forward(request, response);
-            } else {
-                String sqlAddUser = "INSERT INTO users(username,pwd,gender,age,email,registime,lasttime) VALUES(?,?,?,?,?,?,?)";
-                preparedStatement = connection.prepareStatement(sqlAddUser);
-                preparedStatement.setString(1, username);
-                preparedStatement.setString(2, pwd);
-                int sex = gender.equals("man") ? 1 : 0;
-                String date = String.valueOf(timestamp);
-                preparedStatement.setInt(3, sex);
-                preparedStatement.setInt(4, age);
-                preparedStatement.setString(5, email);
-                preparedStatement.setString(6, date);
-                preparedStatement.setString(7, date);
-                int result = preparedStatement.executeUpdate();
-                if (result == 1) {
-                    request.getRequestDispatcher("register_success.jsp").forward(request, response);
+            String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+            String userPath = path + "/user_data/data.txt";
+            File txtFile = new File(userPath);
+            BufferedReader bufferedReader = new BufferedReader(new FileReader(txtFile));
+            BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(txtFile, true));
+            String lineData;
+            boolean isUserExist = false;
+            while ((lineData = bufferedReader.readLine()) != null) {
+                String[] detail = lineData.split(",");
+                if (detail[0].equals(username)) {
+                    isUserExist = true;
+                    bufferedReader.close();
+                    bufferedWriter.close();
+                    request.getRequestDispatcher("register_failed.jsp").forward(request, response);
+                    break;
                 }
-
             }
-        }
-        catch (SQLException e) {
+            if (!isUserExist) {
+                bufferedWriter.newLine();
+                bufferedWriter.write(username + "," + pwd + "," + gender + "," + age + "," + email + "," + timestamp + ",0," + timestamp);
+                bufferedReader.close();
+                bufferedWriter.close();
+                request.getRequestDispatcher("register_success.jsp").forward(request, response);
+            }
+        } catch (IOException | ServletException e) {
             throw new RuntimeException(e);
         }
-        catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+
     }
 }
 

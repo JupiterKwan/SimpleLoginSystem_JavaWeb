@@ -4,6 +4,10 @@
 <%@ page import="java.sql.*" %>
 <%@ page import="com.MySessionContext.SessionRegistry" %>
 <%@ page import="java.util.List" %>
+<%@ page import="java.io.File" %>
+<%@ page import="java.io.BufferedReader" %>
+<%@ page import="java.io.FileReader" %>
+<%@ page import="java.io.IOException" %>
 <html>
 <head>
     <title>管理员页面</title>
@@ -68,35 +72,31 @@
     <table class="table">
         <%
             try {
-                Class.forName("org.postgresql.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/simple_login_system", "postgres", "20029530");
-                String sqlQuery = "SELECT * FROM users";
-                PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                ResultSetMetaData rsmd = resultSet.getMetaData();
-                int columns = rsmd.getColumnCount();
+                String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+                String userPath = path + "/user_data/data.txt";
+                File userFile = new File(userPath);
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(userFile));
+                String lineData;
+
                 String[] columnName = new String[]{"用户名", "密码", "性别", "年龄", "邮箱", "注册时间", "登录次数", "最后一次登陆时间"};
                 out.print("<tr>");
-                for (int i = 0; i < columns; i++) {
+                for (int i = 0; i < 8; i++) {
                     out.println("<td>");
                     out.println(columnName[i]);
                     out.println("</td>");
                 }
                 out.print("</tr>");
-                while (resultSet.next()) {
+                while ((lineData = bufferedReader.readLine()) != null) {
                     out.print("<tr>");
-                    String[] userDetail = new String[resultSet.getMetaData().getColumnCount()];
-                    for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
-                        userDetail[i - 1] = resultSet.getString(i);
-                    }
-                    for (int i = 0; i < columns; i++) {
+                    String[] userDetail = lineData.split(",");
+                    for (int i = 0; i < userDetail.length; i++) {
                         out.println("<td>");
                         out.println(userDetail[i]);
                         out.println("</td>");
                     }
                     out.print("</tr>");
                 }
-            } catch (SQLException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         %>
@@ -110,32 +110,28 @@
     <table class="table">
         <%
             try {
-                Class.forName("org.postgresql.Driver");
-                Connection connection = DriverManager.getConnection("jdbc:postgresql://127.0.0.1:5432/simple_login_system", "postgres", "20029530");
-                String sqlQuery = "SELECT * FROM block_users";
-                PreparedStatement preparedStatement = connection.prepareStatement(sqlQuery);
-                ResultSet resultSet = preparedStatement.executeQuery();
-                ResultSetMetaData rsmd = resultSet.getMetaData();
-                int columns = rsmd.getColumnCount();
+                String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+                String blockPath = path + "/user_data/blacklist.txt";
+                File blacklistFile = new File(blockPath);
+                BufferedReader bufferedReader = new BufferedReader(new FileReader(blacklistFile));
+                String lineData;
+
                 out.print("<tr>");
                 out.println("<td>");
                 out.println("用户名");
                 out.println("</td>");
                 out.print("</tr>");
-                while (resultSet.next()) {
+                while ((lineData = bufferedReader.readLine()) != null) {
                     out.print("<tr>");
-                    String[] userDetail = new String[resultSet.getMetaData().getColumnCount()];
-                    for (int i = 1; i <= resultSet.getMetaData().getColumnCount(); i++) {
-                        userDetail[i - 1] = resultSet.getString(i);
-                    }
-                    for (int i = 0; i < columns; i++) {
+                    String[] blacklistdetail = lineData.split(",");
+                    for (int i = 0; i < blacklistdetail.length; i++) {
                         out.println("<td>");
-                        out.println(userDetail[i]);
+                        out.println(blacklistdetail[i]);
                         out.println("</td>");
                     }
                     out.print("</tr>");
                 }
-            } catch (SQLException | ClassNotFoundException e) {
+            } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         %>

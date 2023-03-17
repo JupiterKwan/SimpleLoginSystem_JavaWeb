@@ -29,7 +29,7 @@
     String[] detail = user.getUserDetail();
     String currentDate = String.valueOf(new Date(System.currentTimeMillis()));
     String date = user.getLoginTime();
-    String gender = (detail[2].equals("1") ? "男" : "女");
+    String gender = (detail[2].equals("man") ? "男" : "女");
 %>
 <h2 class="parent"><%=detail[0] + "，你好！"%>
 </h2>
