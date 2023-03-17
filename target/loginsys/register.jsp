@@ -6,18 +6,28 @@
     <title>登录</title>
     <style>
         .parent {
-            position: relative;
-            top: 50px;
-            left: 50px;
+            margin-top: 80px;
+            width: 50%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            line-height: 50%;
+            vertical-align: middle;
+        }
+        .form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 180%;
         }
     </style>
 </head>
 <body>
 <div class="parent">
     <h2>用户注册</h2>
-    <div>
+    <div class="parent">
         <form action="toRegister" method="post">
-            <table>
+            <table class="form">
                 <tr>
                     <td>
                         用户名:
@@ -68,7 +78,7 @@
             </table>
         </form>
     </div>
-    <div><a href="login.jsp">已经注册？点击登录</a></div>
+    <div class="parent"><a href="login.jsp">已经注册？点击登录</a></div>
 </div>
 
 </body>
