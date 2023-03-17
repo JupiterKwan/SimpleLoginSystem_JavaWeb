@@ -72,6 +72,7 @@
     <table class="table">
         <%
             try {
+                // 获取信息
                 String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
                 String userPath = path + "/user_data/data.txt";
                 File userFile = new File(userPath);

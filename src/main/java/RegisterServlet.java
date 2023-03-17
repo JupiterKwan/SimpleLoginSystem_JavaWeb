@@ -15,6 +15,7 @@ public class RegisterServlet extends HttpServlet {
         request.setCharacterEncoding("utf-8");
         response.setContentType("text/html;charset=utf-8");
 
+        // 获取当前系统时间作为注册时间
         Date timestamp = new Date(System.currentTimeMillis());
         String username = request.getParameter("username");
         String pwd = request.getParameter("pwd");
@@ -23,6 +24,7 @@ public class RegisterServlet extends HttpServlet {
         String email = request.getParameter("email");
 
         try {
+            // 获取用户数据文件
             String path = Thread.currentThread().getContextClassLoader().getResource("").getPath();
             String userPath = path + "/user_data/data.txt";
             File txtFile = new File(userPath);
@@ -32,6 +34,7 @@ public class RegisterServlet extends HttpServlet {
             boolean isUserExist = false;
             while ((lineData = bufferedReader.readLine()) != null) {
                 String[] detail = lineData.split(",");
+                // 判断用户是否存在，不允许重复注册
                 if (detail[0].equals(username)) {
                     isUserExist = true;
                     bufferedReader.close();
